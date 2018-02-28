@@ -38,12 +38,21 @@ public class AdminControllerTest extends BaseControllerTest {
     }
 
     @Test
+    public void testAccessAdminAsCoach() throws Exception {
+        // Assure we get redirected if we aren't an admin
+        mockMvc.perform(get("/admin")
+                .with(SecurityMockMvcRequestPostProcessors.user(participant)))
+                .andExpect((status().is4xxClientError()));
+    }
+
+    @Test
     public void testAccessAdminAsParticipant() throws Exception {
         // Assure we get redirected if we aren't an admin
         mockMvc.perform(get("/admin")
                 .with(SecurityMockMvcRequestPostProcessors.user(participant)))
                 .andExpect((status().is4xxClientError()));
     }
+
 
     @Test
     public void testAccessAdminAsAdmin() throws Exception {
@@ -56,8 +65,8 @@ public class AdminControllerTest extends BaseControllerTest {
     @Test
     public void listParticipants() throws Exception {
         // Assure we get redirected if we aren't an admin
-        createParticipant("Francis", "fff@ggg.com", false);
-        createParticipant("Robert", "rrr@ggg.com", false);
+        createParticipant("Francis", "fff@ggg.com", false, false);
+        createParticipant("Robert", "rrr@ggg.com", false, false);
         mockMvc.perform(get("/admin")
                 .with(SecurityMockMvcRequestPostProcessors.user(admin)))
                 .andExpect(status().isOk());
@@ -89,7 +98,7 @@ public class AdminControllerTest extends BaseControllerTest {
 
     @Test
     public void editParticipant() throws Exception {
-        Participant p = createParticipant("John Doe", "john@doe.com", false);
+        Participant p = createParticipant("John Doe", "john@doe.com", false, false);
 
         mockMvc.perform(get("/admin/participant/" + p.getId())
                 .with(SecurityMockMvcRequestPostProcessors.user(admin)))
@@ -125,7 +134,7 @@ public class AdminControllerTest extends BaseControllerTest {
 
     @Test
     public void editParticipantWithPhoneGivesFormattedPhone() throws Exception {
-        Participant p = createParticipant("John Phone Bone", "jpb@doe.com", false);
+        Participant p = createParticipant("John Phone Bone", "jpb@doe.com", false, false);
 
         mockMvc.perform(get("/admin/participant/" + p.getId())
                 .with(SecurityMockMvcRequestPostProcessors.user(admin)))

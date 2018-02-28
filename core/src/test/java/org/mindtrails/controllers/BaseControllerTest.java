@@ -58,6 +58,7 @@ public abstract class BaseControllerTest {
 
     protected Participant admin;
 
+    protected Participant coach;
 
     @Before
     public void setup() {
@@ -79,7 +80,7 @@ public abstract class BaseControllerTest {
      */
     public abstract Object[] getControllers();
 
-    public Participant createParticipant(String name, String email, boolean admin) {
+    public Participant createParticipant(String name, String email, boolean admin, boolean coach) {
         Participant p;
         p = participantRepository.findByEmail(email);
         if(p == null) {
@@ -87,6 +88,7 @@ public abstract class BaseControllerTest {
             p.setFullName(name);
             p.setEmail(email);
             p.setAdmin(admin);
+            p.setCoach(coach);
         }
         p.setStudy(new TestStudy());
         participantRepository.save(p);
@@ -95,8 +97,9 @@ public abstract class BaseControllerTest {
 
     @Before
     public void establishParticipants() {
-        participant = createParticipant("john", "test@test.com", false);
-        admin = createParticipant("J McAdmin", "admin@test.com", true);
+        participant = createParticipant("john", "test@test.com", false, false);
+        admin = createParticipant("J McAdmin", "admin@test.com", true, false);
+        coach = createParticipant("Sammy Coachalotta", "coach@test.com", false, true);
 
         // Reset progress for participant
         TestStudy s = (TestStudy)participant.getStudy();

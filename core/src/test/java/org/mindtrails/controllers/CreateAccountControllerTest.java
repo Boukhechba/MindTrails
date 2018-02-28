@@ -83,8 +83,7 @@ public class CreateAccountControllerTest extends BaseControllerTest {
                 .param("over18", "true")
                 .param("recaptchaResponse", "someresponse"))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/account/theme"));
+                .andExpect(status().is2xxSuccessful());
 
         p = participantRepository.findByEmail("some_crazy2@email.com");
         assert(p != null);
