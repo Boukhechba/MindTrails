@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<!-- Contains elements that are likely to be constant across
+     all pages, vs common.html, which will likely be overridden
+     by a specific study.
+    -->
+
+
+<!--[if lt IE 7 ]>
+<html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>
+<html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>
+<html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie" lang="en">
+<!--<![endif]-->
+
+<body>
+
+
+<footer>
+
+    <div th:fragment="footerLinks">
+        <!--row starts-->
+        <div class="row">
+            <!--column one starts-->
+            <div class="footer-logo">
+                <img th:src="@{/images/pimh.png}" alt="Project Implicit Mental Health"/>
+            </div>
+
+            <!--column three starts-->
+            <ul class="footer-links">
+                <li><a th:href="@{/public/disclaimer}">Terms and Conditions</a></li>
+                <li><a th:href="@{/public/privacy}">Privacy Policy</a></li>
+                <li><a href="https://implicit.harvard.edu/implicit/user/pimh/index.jsp">Project Implicit Mental
+                    Health</a></li>
+            </ul>
+
+            <div class="clear-both"></div>
+        </div>
+    </div>
+
+    <div class="adminTools" sec:authorize="hasRole('ROLE_COACH')" th:fragment="footerCoach">
+        <h5>Coaching Tools</h5>
+        <p>This section is only visible to you because you have been designated as a Coach for the Mindtrails
+            project.</p>
+        <ul class="list-info">
+            <li><a th:href="@{/coach}">Coach Dashboard</a>: provides detailed overview of coach progress.</li>
+        </ul>
+    </div>
+
+    <div class="adminTools" sec:authorize="hasRole('ROLE_ADMIN')" th:fragment="footerAdmin">
+        <h5>Administration Tools</h5>
+
+        <p>This section is only visible to you because you have been granted administrative access.</p>
+        <ul class="list-info">
+            <li><a th:href="@{/admin}">User Administration</a>: provides a way to view all accounts created on the
+                system.
+            </li>
+            <li><a th:href="@{/admin/listEmails}">Email Messages</a>: allows you to send yourself a copy of all
+                email messages
+                coming from the system.
+            </li>
+            <li><a th:href="@{/admin/listSessions}">Sessions</a>: allows you to view all available sessions, and
+                jump into any
+                content within a session.
+            </li>
+            <li><a th:href="@{/admin/tango}">Gift Cards Account</a>: allows you to check information about the gift
+                card
+                account for your study.
+            </li>
+            <li><a th:href="@{/admin/export}">Export</a>: allows you to export questionnaire data.
+            </li>
+            <li><a th:href="@{/admin/userstats}">User statistics information</a>: allows you to check users
+                statistics information.
+            </li>
+        </ul>
+    </div>
+    <div class="copyright" th:fragment="footerCopyright">&copy; Copyright 2018 &bull; All rights reserved</div>
+</footer>
+
+
+</body>
+
+
+</html>
