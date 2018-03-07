@@ -11,19 +11,14 @@
 <head th:replace="fragment/common :: headerFragment"/>
 <body>
 <section th:replace="fragment/common :: topFragment"/>
-<section th:replace="fragment/common :: titleBar (title='ReasonsForEnding')"/>
+<section th:replace="fragment/common :: titleBar (title='Coachiing Report')"/>
 <textArea th:replace="fragment/common :: questionTemplate"/>
 <textArea th:replace="fragment/common :: questionTemplate2"/>
 <section id="content1" class="clearfix">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-
-                <p> We want to improve our program and would like to learn about why you decided to stop the program. We appreciate your feedback!</p>
-                <p>Note that <b>assessment sessions</b> were sessions in which you filled out questionnaires on your thoughts and feelings.
-                    <b>Training sessions</b> were sessions in which you completed words at the end of sentences.</p>
-
-
+                <p>You are completing a report for <b th:text="${coachee.fullName}">Sammy Particifante</b></p>
             </div>
         </div>
     </div>
@@ -31,19 +26,78 @@
 
 <section id="content" class="clearfix">
 
-    <form th:action="@{/questions/ReasonsForEnding}" method="POST">
+    <form th:action="@{/questions/CoachReport}" method="POST">
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="contactDate">Contact Date</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" id="contactDate" name="contactDate" th:errorclass="error"
+                       th:field="*{contactDate}"/>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#contactDate').datetimepicker();
+                    });
+                </script>
+            </div>
+            <span th:if="${#fields.hasErrors('contactDate')}" th:errors="*{contactDate}">Contact Date Error</span>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="contactMethod">Contact Method</label>
+            <div class="col-sm-6">
+                <select id="contactMethod" th:field="*{contactMethod}">
+                    <option th:each="method : ${contactMethods}"
+                            th:text="${method}">Phone</option>
+                </select>
+            </div>
+            <span th:if="${#fields.hasErrors('contactMethod')}" th:errors="*{contactMethod}">Contact Method Error</span>
+        </div>
+
+        <div class="form-group row">
+            <label class="control-label col-sm-2" for="contactMethod">Did you complete a coaching session?</label>
+            <div class="col-sm-6">
+                <select id="contactMethod" th:field="*{contactMethod}">
+                    <option th:each="method : ${contactMethods}"
+                            th:text="${method}">Phone</option>
+                </select>
+            </div>
+            <span th:if="${#fields.hasErrors('contactMethod')}" th:errors="*{contactMethod}">Contact Method Error</span>
+        </div>
+
+
         <!-- Add timer -->
         <input id="timeOnPage" name="timeOnPage" type="hidden"/>
         <div class="container">
-
             <div class="section">
                 <div class="row">
                     <div class="col-md-10">
-
-                        <p>1. Why did you decide to end the program? (please check all that apply)</p>
-
+                        <p>When did you contact this participant?</p>
+                        <div class="container">
+                            <div class="row">
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="section">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <p>When did you contact this participant?</p>
+                            <div class="container">
+                                <div class="row">
+                                    <div class='col-sm-6'>
+                                        <input type='text' class="form-control" id='contactDatePicker' />
+                                    </div>
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            $('#contactDatePicker').datetimepicker();
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <div class="col-md-8 side-border">
