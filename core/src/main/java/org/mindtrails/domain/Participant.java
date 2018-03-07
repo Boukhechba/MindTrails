@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.mindtrails.domain.RestExceptions.NotACoachException;
 import org.mindtrails.domain.tracking.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ import java.util.*;
 @Entity
 @Table(name = "participant")
 @Data
-@EqualsAndHashCode(exclude={"emailLogs", "giftLogs", "SMSLogs", "passwordToken","verificationCode"})
+@EqualsAndHashCode(exclude={"emailLogs", "giftLogs", "SMSLogs", "passwordToken","verificationCode","coachedBy"})
 public  class Participant implements UserDetails {
 
     private static final Logger LOG = LoggerFactory.getLogger(Participant.class);
@@ -51,6 +52,7 @@ public  class Participant implements UserDetails {
     protected boolean receiveGiftCards = true;
     protected boolean verified = false;
     protected boolean blacklist = false;
+    protected Date returnDate;
     @JsonIgnore
     protected String randomToken;
     protected String theme = "blue";
@@ -68,6 +70,9 @@ public  class Participant implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity=BaseStudy.class)
     protected Study study;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    protected Participant coachedBy;
 
     // IMPORTANT: Automatic email notifications start failing when
     // these relationships are setup with a FetchType.LAZY. Please
@@ -305,6 +310,16 @@ public  class Participant implements UserDetails {
             }
         }
         return false;
+    }
+
+    public void setCoachedBy(Participant coach) {
+        if(coach == null) {
+            this.coachedBy = null;
+        }else if(!coach.isCoach()) {
+            throw new NotACoachException();
+        } else {
+            this.coachedBy = coach;
+        }
     }
 
 }

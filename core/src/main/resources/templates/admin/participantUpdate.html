@@ -95,6 +95,19 @@
                         </script>
 
                         <tr>
+                            <td>Coached By:</td>
+                            <td>
+                            <select th:field="*{coachId}">
+                                <option value="0"></option>
+                                <option th:each="coach : ${coaches}"
+                                        th:value="${coach.id}"
+                                        th:text="${coach.fullName}">Johnny Coachamocha</option>
+                            </select>
+                            </td>
+                            <td th:if="${#fields.hasErrors('active')}" th:errors="*{active}">Admin Error</td>
+                        </tr>
+
+                        <tr>
                             <td>Is Active:</td>
                             <td><input type="checkbox" th:field="*{active}"/></td>
                             <td th:if="${#fields.hasErrors('active')}" th:errors="*{active}">Admin Error</td>

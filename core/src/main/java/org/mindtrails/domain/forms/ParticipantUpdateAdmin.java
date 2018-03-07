@@ -12,6 +12,7 @@ public class ParticipantUpdateAdmin extends ParticipantUpdate {
     private boolean active;
     private boolean admin;
     private boolean coach;
+    private long coachId;
     private boolean testAccount;
     private boolean blacklist;
 
@@ -26,6 +27,9 @@ public class ParticipantUpdateAdmin extends ParticipantUpdate {
         super.fromParticipant(p);
         this.active = p.isActive();
         this.coach = p.isCoach();
+        if(p.getCoachedBy() != null) {
+            this.coachId = p.getCoachedBy().getId();
+        }
         this.admin = p.isAdmin();
         this.testAccount = p.isTestAccount();
         this.blacklist=p.isBlacklist();

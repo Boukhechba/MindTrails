@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -113,6 +114,33 @@ public class AdminControllerTest extends BaseControllerTest {
         Participant p2 = participantRepository.findOne(p.getId());
         assertEquals("John Q. Doe", p2.getFullName());
         assertEquals("new@email.com", p2.getEmail());
+
+    }
+
+    @Test
+    public void editParticiantCoach() throws Exception {
+        Participant p = createParticipant("John Doe", "john@doe.com", false, false);
+        Participant c = createParticipant("Johnny McCoachel", "mcc@doe.com", false, true);
+
+        mockMvc.perform(post("/admin/participant/" + p.getId())
+                .with(SecurityMockMvcRequestPostProcessors.user(admin))
+                .param("fullName", "John Q. Doe")
+                .param("email", "new@email.com")
+                .param("coachId", c.getId() + ""))
+                .andExpect(status().is3xxRedirection());
+
+        p = participantRepository.findOne(p.getId());
+        assertEquals(p.getCoachedBy(), c);
+
+        mockMvc.perform(post("/admin/participant/" + p.getId())
+                .with(SecurityMockMvcRequestPostProcessors.user(admin))
+                .param("fullName", "John Q. Doe")
+                .param("email", "new@email.com")
+                .param("coachId", "0"))
+                .andExpect(status().is3xxRedirection());
+
+        p = participantRepository.findOne(p.getId());
+        assertNull(p.getCoachedBy());
 
     }
 

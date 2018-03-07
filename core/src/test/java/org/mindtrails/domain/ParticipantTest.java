@@ -1,6 +1,7 @@
 package org.mindtrails.domain;
 
 import org.mindtrails.MockClasses.TestStudy;
+import org.mindtrails.domain.RestExceptions.NotACoachException;
 import org.mindtrails.domain.tracking.EmailLog;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -107,8 +108,6 @@ public class ParticipantTest {
     }
 
 
-
-
     @Test
     public void testParticipantKnowsIfEmailOfTypeSentPreviously() {
         Participant p;
@@ -120,5 +119,23 @@ public class ParticipantTest {
         assertTrue(p.previouslySent("followup"));
     }
 
+    @Test(expected = NotACoachException.class)
+    public void testCanNotAssignCoachThatIsNotACoach() {
+        Participant p,c;
+        p = new Participant("Dan Funk", "daniel.h.funk@gmail.com", false);
+        c = new Participant("Danny Coachy", "da_coach@gmail.com", false);
+        p.setCoachedBy(c);
+    }
+
+    @Test
+    public void participantCanHaveCoach() {
+        Participant p,c;
+        p = new Participant("Dan Funk", "daniel.h.funk@gmail.com", false);
+        c = new Participant("Danny Coachy", "da_coach@gmail.com", false);
+        c.setCoach(true);
+        p.setCoachedBy(c);
+
+        assertEquals(p.getCoachedBy(), c);
+    }
 
 }

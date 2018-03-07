@@ -146,10 +146,13 @@ public class AdminController extends BaseController {
                            @PathVariable("id") long id) {
         Participant p;
         ParticipantUpdateAdmin form;
+        List<Participant> coaches;
         p    = participantRepository.findOne(id);
         form = new ParticipantUpdateAdmin(p);
+        coaches = participantRepository.findByCoach(true);
         model.addAttribute("participantUpdateAdmin", form);
         model.addAttribute("participantEdit", p);
+        model.addAttribute("coaches", coaches);
         return "admin/participantUpdate";
     }
 
@@ -166,6 +169,11 @@ public class AdminController extends BaseController {
             return "admin/participantUpdate";
         } else {
             form.updateParticipant(p);
+            if(form.getCoachId() > 0) {
+                p.setCoachedBy(participantRepository.findOne(form.getCoachId()));
+            } else {
+                p.setCoachedBy(null);
+            }
             participantService.save(p);
             return "redirect:/admin";
         }

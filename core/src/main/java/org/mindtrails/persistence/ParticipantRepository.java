@@ -34,6 +34,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
     List<Participant> findByPhone(String phone);
     List<Participant> findByActiveAndPhoneReminders(boolean active, boolean phone);
     List<Participant> findByActive(boolean active);
+    List<Participant> findByCoach(boolean isCoach);
 
     @Query(" select p from Participant as p" +
             " where lower(p.fullName) like '%' || lower(:search) || '%'" +
