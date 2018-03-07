@@ -25,9 +25,10 @@ public class CoachReport extends LinkedQuestionnaireData {
 
     public static ArrayList<String> contactTypes = new ArrayList<>(Arrays.asList("Email", "Phone","Text"));
 
-    protected long coacheeId;
+    protected long coachId;
     protected Date contactDate;
     protected String contactMethod;
+    protected Boolean coachingSession = false;
     @Lob
     protected String comments;
     protected Date nextContactDate;

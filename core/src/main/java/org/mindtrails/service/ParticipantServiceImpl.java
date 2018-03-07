@@ -35,6 +35,11 @@ public abstract class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
+    public Participant find(Long id) {
+        return participantRepository.findOne(id);
+    }
+
+    @Override
     public Participant findByEmail(String email) {
         return participantRepository.findByEmail(email);
     }

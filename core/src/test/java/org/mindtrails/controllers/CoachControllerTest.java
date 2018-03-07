@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.mindtrails.controller.CoachController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,6 +48,14 @@ public class CoachControllerTest extends BaseControllerTest {
         mockMvc.perform(get("/coach")
                 .with(SecurityMockMvcRequestPostProcessors.user(coach)))
                 .andExpect((status().is2xxSuccessful()));
+    }
+
+    @Test
+    public void getCoachingReportForm() throws Exception {
+        MvcResult result = mockMvc.perform(get("/coach/report")
+                .with(SecurityMockMvcRequestPostProcessors.user(coach)))
+                .andExpect((status().is2xxSuccessful()))
+                .andReturn();
     }
 
 }

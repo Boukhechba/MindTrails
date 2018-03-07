@@ -32,6 +32,11 @@ public interface ParticipantService {
      */
     Participant findByEmail(String email);
 
+    /** Returns a participant associated with given id
+     */
+    Participant find(Long id);
+
+
     List<Participant> findByPhone(String phone);
 
     /**
