@@ -1,14 +1,13 @@
 package org.mindtrails.persistence;
 
+import org.mindtrails.domain.Coach;
 import org.mindtrails.domain.Participant;
 import org.mindtrails.domain.ParticipantStats;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +33,9 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
     List<Participant> findByPhone(String phone);
     List<Participant> findByActiveAndPhoneReminders(boolean active, boolean phone);
     List<Participant> findByActive(boolean active);
-    List<Participant> findByCoach(boolean isCoach);
+    List<Coach> findByCoach(boolean isCoach);
+
+    List<Participant> findByActiveAndCoachedByIsNotNull(boolean active);
 
     @Query(" select p from Participant as p" +
             " where lower(p.fullName) like '%' || lower(:search) || '%'" +

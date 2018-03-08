@@ -1,29 +1,16 @@
 package org.mindtrails.controller;
 
 import lombok.Data;
-import org.mindtrails.domain.*;
 import org.joda.time.DateTime;
+import org.mindtrails.domain.*;
 import org.mindtrails.domain.forms.ParticipantCreate;
 import org.mindtrails.domain.forms.ParticipantCreateAdmin;
 import org.mindtrails.domain.forms.ParticipantUpdateAdmin;
-import org.mindtrails.domain.questionnaire.QuestionnaireInfo;
 import org.mindtrails.domain.tango.Account;
 import org.mindtrails.domain.tango.Order;
 import org.mindtrails.domain.tango.Reward;
 import org.mindtrails.domain.tracking.ErrorLog;
-
-import org.mindtrails.domain.tracking.EmailLog;
-import org.mindtrails.domain.tracking.ExportLog;
-import org.mindtrails.domain.tracking.SMSLog;
-import org.mindtrails.persistence.EmailLogRepository;
-import org.mindtrails.persistence.SMSLogRepository;
-import org.mindtrails.domain.tracking.TaskLog;
-import org.mindtrails.persistence.TaskLogRepository;
-
-import org.mindtrails.domain.userstats;
-import org.mindtrails.persistence.ErrorLogRepository;
-import org.mindtrails.persistence.ParticipantRepository;
-import org.mindtrails.persistence.StudyRepository;
+import org.mindtrails.persistence.*;
 import org.mindtrails.service.EmailService;
 import org.mindtrails.service.ExportService;
 import org.mindtrails.service.ParticipantService;
@@ -146,7 +133,7 @@ public class AdminController extends BaseController {
                            @PathVariable("id") long id) {
         Participant p;
         ParticipantUpdateAdmin form;
-        List<Participant> coaches;
+        List<Coach> coaches;
         p    = participantRepository.findOne(id);
         form = new ParticipantUpdateAdmin(p);
         coaches = participantRepository.findByCoach(true);

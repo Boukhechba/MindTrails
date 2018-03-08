@@ -1,5 +1,6 @@
 package org.mindtrails.service;
 
+import org.mindtrails.domain.Coach;
 import org.mindtrails.domain.Participant;
 import org.mindtrails.domain.Study;
 
@@ -36,6 +37,14 @@ public interface ParticipantService {
      */
     Participant find(Long id);
 
+    /** Returns all coaches
+     */
+    List<Coach> findAllCoaches();
+
+    /**
+     * Returns all the people with a coach
+     */
+    List<Participant> findAllActiveWithCoach();
 
     List<Participant> findByPhone(String phone);
 

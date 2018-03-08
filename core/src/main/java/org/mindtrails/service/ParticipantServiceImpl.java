@@ -1,6 +1,7 @@
 package org.mindtrails.service;
 
 
+import org.mindtrails.domain.Coach;
 import org.mindtrails.domain.Participant;
 import org.mindtrails.persistence.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,16 @@ public abstract class ParticipantServiceImpl implements ParticipantService {
     @Override
     public List<Participant> findByPhone(String phone) {
         return participantRepository.findByPhone(phone);
+    }
+
+    @Override
+    public List<Coach> findAllCoaches() {
+        return participantRepository.findByCoach(true);
+    }
+
+    @Override
+    public List<Participant> findAllActiveWithCoach() {
+        return participantRepository.findByActiveAndCoachedByIsNotNull(true);
     }
 
     @Override

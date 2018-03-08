@@ -6,6 +6,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DiscriminatorFormula;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.mindtrails.domain.RestExceptions.NotACoachException;
@@ -28,7 +29,9 @@ import java.util.*;
 @Table(name = "participant")
 @Data
 @EqualsAndHashCode(exclude={"emailLogs", "giftLogs", "SMSLogs", "passwordToken","verificationCode","coachedBy"})
-public  class Participant implements UserDetails {
+@DiscriminatorFormula("case when coach then 'coach' else 'participant' end")
+@DiscriminatorValue("participant")
+public class Participant implements UserDetails {
 
     private static final Logger LOG = LoggerFactory.getLogger(Participant.class);
 
@@ -71,8 +74,9 @@ public  class Participant implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity=BaseStudy.class)
     protected Study study;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected Participant coachedBy;
+
 
     // IMPORTANT: Automatic email notifications start failing when
     // these relationships are setup with a FetchType.LAZY. Please
@@ -96,6 +100,11 @@ public  class Participant implements UserDetails {
     @JsonIgnore
     @OrderBy(value = "dateSent")
     protected SortedSet<ErrorLog> errorLogs = new TreeSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "participant")
+    @JsonIgnore
+    @OrderBy(value = "dateSent")
+    protected SortedSet<CoachLog> coachLogs = new TreeSet<>();
 
 
     @Override

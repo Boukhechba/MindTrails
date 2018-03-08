@@ -1,9 +1,8 @@
-package org.mindtrails.persistence;
+package org.mindtrails.domain.tracking;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.mindtrails.domain.DoNotDelete;
-import org.mindtrails.domain.questionnaire.LinkedQuestionnaireData;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -21,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @DoNotDelete
-public class CoachReport extends LinkedQuestionnaireData {
+public class CoachLog extends MindTrailsLog {
 
     public static ArrayList<String> contactTypes = new ArrayList<>(Arrays.asList("Email", "Phone","Text"));
 
@@ -32,4 +31,5 @@ public class CoachReport extends LinkedQuestionnaireData {
     @Lob
     protected String comments;
     protected Date nextContactDate;
+
 }

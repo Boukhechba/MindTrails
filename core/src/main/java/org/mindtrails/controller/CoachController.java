@@ -1,9 +1,8 @@
 package org.mindtrails.controller;
 
 import org.mindtrails.domain.Participant;
-import org.mindtrails.domain.questionnaire.QuestionnaireData;
-import org.mindtrails.persistence.CoachReport;
-import org.mindtrails.persistence.CoachReportRepository;
+import org.mindtrails.domain.tracking.CoachLog;
+import org.mindtrails.persistence.CoachLogRepository;
 import org.mindtrails.service.ParticipantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +29,13 @@ public class CoachController {
     private ParticipantService participantService;
 
     @Autowired
-    private CoachReportRepository reportRepository;
+    private CoachLogRepository reportRepository;
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public String coachOverview() {
+    public String coachOverview(ModelMap model) {
+        model.addAttribute("coaches", participantService.findAllCoaches());
+        model.addAttribute("coachees", participantService.findAllActiveWithCoach());
         return "coach/overview";
     }
 
@@ -43,24 +44,23 @@ public class CoachController {
 
         // Participant coach = participantService.get(principal);
         Participant participant = participantService.find(participant_id);
-        CoachReport report = new CoachReport();
+        CoachLog report = new CoachLog();
         report.setContactDate(new Date());
 
 
         model.addAttribute("participant", participant);
-        model.addAttribute("coachReport", new CoachReport());
-        model.addAttribute("contactTypes", CoachReport.contactTypes);
+        model.addAttribute("coachReport", new CoachLog());
+        model.addAttribute("contactTypes", CoachLog.contactTypes);
         return ("questions/CoachReport");
 
     }
 
     @RequestMapping(value="report/{id}", method=RequestMethod.POST)
-    public String submitReport(CoachReport report, Principal principal,
+    public String submitReport(CoachLog report, Principal principal,
                                @PathVariable("id") Long participant_id) {
 
         Participant coach = participantService.get(principal);
         Participant participant = participantService.find(participant_id);
-        report.setId(null);  // This should always create a new report.
         report.setCoachId(coach.getId());
         report.setParticipant(participant);
         reportRepository.save(report);
