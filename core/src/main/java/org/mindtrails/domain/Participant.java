@@ -28,7 +28,7 @@ import java.util.*;
 @Entity
 @Table(name = "participant")
 @Data
-@EqualsAndHashCode(exclude={"emailLogs", "giftLogs", "SMSLogs", "passwordToken","verificationCode","coachedBy"})
+@EqualsAndHashCode(exclude={"emailLogs", "giftLogs", "SMSLogs", "coachLogs", "passwordToken","verificationCode","coachedBy"})
 @DiscriminatorFormula("case when coach then 'coach' else 'participant' end")
 @DiscriminatorValue("participant")
 public class Participant implements UserDetails {
@@ -103,8 +103,7 @@ public class Participant implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "participant")
     @JsonIgnore
-    @OrderBy(value = "dateSent")
-    protected SortedSet<CoachLog> coachLogs = new TreeSet<>();
+    protected List<CoachLog> coachLogs = new ArrayList<>();
 
 
     @Override

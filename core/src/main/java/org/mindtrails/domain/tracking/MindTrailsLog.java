@@ -2,6 +2,7 @@ package org.mindtrails.domain.tracking;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.mindtrails.domain.Participant;
 
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import java.util.Date;
  */
 @MappedSuperclass
 @Data
+@EqualsAndHashCode(exclude={"participant"})
 public abstract class MindTrailsLog implements Comparable<MindTrailsLog> {
 
     @Id

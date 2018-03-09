@@ -61,7 +61,7 @@ public class CoachController {
 
         Participant coach = participantService.get(principal);
         Participant participant = participantService.find(participant_id);
-        report.setCoachId(coach.getId());
+        report.setCoach(coach);
         report.setParticipant(participant);
         reportRepository.save(report);
         return("redirect:/coach");

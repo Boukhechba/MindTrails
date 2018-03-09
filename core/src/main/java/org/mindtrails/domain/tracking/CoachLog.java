@@ -3,10 +3,9 @@ package org.mindtrails.domain.tracking;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.mindtrails.domain.DoNotDelete;
+import org.mindtrails.domain.Participant;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,15 +15,17 @@ import java.util.Date;
  * Created by dan on 3/6/18.
  */
 @Entity
-@Table(name="CoachReport")
-@EqualsAndHashCode(callSuper = true)
+@Table(name="coach_log")
+@EqualsAndHashCode(exclude = {"coach","participant"})
 @Data
 @DoNotDelete
 public class CoachLog extends MindTrailsLog {
 
     public static ArrayList<String> contactTypes = new ArrayList<>(Arrays.asList("Email", "Phone","Text"));
 
-    protected long coachId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    protected Participant coach;
+
     protected Date contactDate;
     protected String contactMethod;
     protected Boolean coachingSession = false;
