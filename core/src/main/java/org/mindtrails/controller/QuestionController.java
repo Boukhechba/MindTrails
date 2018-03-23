@@ -132,7 +132,7 @@ public class QuestionController extends BaseController {
         // Only treat this as progress in the session if the submitted task is
         // a part of the regularly occuring questionnaires.  Other questions, such
         // as a "reason for ending" should not be recorded as making progress in the session.
-        boolean isProgress = participant.getStudy().hasTask(formName);
+        boolean isProgress = participant.getStudy().isProgress(formName);
 
         String currentTaskName = participant.getStudy().getCurrentSession().getCurrentTask().getName();
         if(!currentTaskName.equals(formName) && isProgress && !participant.isAdmin()) {
@@ -143,7 +143,7 @@ public class QuestionController extends BaseController {
 
         // Grab the tag of the current task, and incorporate it into the data.
         String tag = participant.getStudy().getCurrentSession().getCurrentTask().getTag();
-        data.setTag(tag);
+        data.setTag(tag);3
 
         // Save time on Task to TaskLog.
         double timeOnTask = data.getTimeOnPage();

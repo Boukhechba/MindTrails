@@ -47,6 +47,10 @@ public interface Study {
 
     public boolean hasTask(String task);
 
+    public boolean isProgress(String task);  // returns true if completeing this task should be considered as making progress in the study.
+
+
+
     /**
      *     Parameters to pass into the PIPlayer Script.  Frequently
      *     includes details about the current study, such as

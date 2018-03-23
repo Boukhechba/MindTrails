@@ -183,4 +183,17 @@ public class TempletonStudy extends BaseStudy {
 
         return sessions;
     }
+
+
+    // Don't count the Evaluation form as an attempt to make progress if it is
+    // completed out of order (it should always be possible to complete the evaluation form.
+    @Override
+    public boolean isProgress(String taskName){
+        if (taskName.equals ("Evaluation") && !getCurrentSession().getCurrentTask().getName().equals ("Evaluation")) {
+            return false;
+        } else {
+            return this.hasTask(taskName);
+        }
+    }
+
 }

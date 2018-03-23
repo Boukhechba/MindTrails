@@ -303,4 +303,11 @@ public abstract class BaseStudy implements Study {
         }
         return false;
     }
+
+    @Override
+    public boolean isProgress(String taskName) {
+        return hasTask(taskName);
+    }
+
+
 }
